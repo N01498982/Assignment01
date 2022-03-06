@@ -1,0 +1,38 @@
+table,
+thead,
+td {
+  border: 2px solid black;
+  width: 500px;
+  margin: 0 auto;
+  background-color: rgb(252, 252, 252);
+}
+
+.Enter {
+  margin-right: auto;
+  margin-left: auto;
+  text-align: center;
+}
+
+.Add {
+  display: block;
+  margin-right: auto;
+  margin-left: auto;
+  text-align: center;
+}
+
+input {
+  padding-left: 20px;
+}
+
+.Nextpage {
+  padding-top: 10px;
+  margin-right: auto;
+  margin-left: auto;
+  text-align: center;
+}
+
+.Logout {
+  padding-top: 10px;
+  justify-content: center;
+  text-align: center;
+}
