@@ -1,22 +1,25 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./Marketplace.css";
+import { AddClothes } from "../AddClothes/AddClothes";
 
 const customerShopping1 = [
-    { name: "OVO Zeus 2021", price: "$20", description: "Feeling fresh", stock: "232" },
-    { name: "OVO Zeke 2020", price: "$30", description: "You will get all the ladies", stock: "23" },
-    { name: "OVO Medusa 2019", price: "$40", description: "Looking sick", stock: "144" },
+    { name: "OVO Zeus 2021", price: "$650", description: "Feeling fresh", stock: "232" },
+    { name: "OVO Zeke 2020", price: "$1500", description: "You will get all the ladies", stock: "23" },
+    { name: "OVO Medusa 2019", price: "$350", description: "Looking sick", stock: "144" },
 ];
-const customerShopping2 = [
-    { name: "Gucci Killua", price: "$22", description: "Be the coolest man on earth", stock: "52" },
-    { name: "Gucci Gon", price: "$30", description: "You'll look differently good", stock: "45" },
-    { name: "Gucci Hisoka", price: "$40", description: "Now your just built different", stock: "532" },
-];
-export const Marketplace = () => {
-    console.log('Clothing list generated');
-    const [isTheStore, setTheStore] = useState(false);
+export const Marketplace = ({storeOwner}) => {
+    console.log();
+    const [name, setName] = useState("");
+    const [price, setPrice] = useState("");
+    const [description, setDescription] = useState("");
+    const [stock, setStock] = useState("");
+    const [filter, setfilter] = useState("")
+    const MarketplaceFilter = Marketplace.filter(clothing => clothing.name.startsWith(filter));
     const navigate = useNavigate();
-    const Marketplace = isTheStore ? customerShopping1 : customerShopping2;
+    const [Marketplace, setMarketplace] = useState(customerShopping1);
+    const addClothes = (Clothes) =>
+        setMarketplace([...Marketplace, Clothes])
     return (
         <div className="Marketplace">
             <table>
@@ -26,11 +29,10 @@ export const Marketplace = () => {
                         <th>Price</th>
                         <th>Description</th>
                         <th>Stock</th>
-                        <th>Edit</th>
                     </tr>
                 </thead>
                 <tbody>
-                    {Marketplace.map(({ name, price, description, stock}, index) => (
+                    {MarketplaceFilter.map(({ name, price, description, stock }, index) => (
                         <tr key={index}>
                             <td>{name}</td>
                             <td>{price}</td>
@@ -38,46 +40,24 @@ export const Marketplace = () => {
                             <td>{stock}</td>
                         </tr>
                     ))}
-                </tbody>
+                </tbody>    
             </table>
-            <div className="Enter">
-                <h2>Add a new clothing</h2>
-                <form className= "Message">
-                    <input type="text"
-                        name="name"
-                        required="required"
-                        placeholder="enter a clothing name"
-                    />
-                    <input type="text"
-                        name="price"
-                        required="required"
-                        placeholder="enter a price"
-                    />
-                    <input type="text"
-                        name="description"
-                        required="required"
-                        placeholder="enter a description"
-                    />
-                    <input type="text"
-                        name="stock"
-                        required="required"
-                        placeholder="enter a stocks"
-                    />
-                    <button className="Add" type="submit">Add</button>
-                </form>
-                <div className="Nextpage">
-                 <button className="Edit" type="submit">Edit</button>
-                    <button onClick={() => setTheStore((prevState) => !prevState)}>
-                        Next Page
-                    </button>
-                    <div className="Logout">
-                        <button onClick={() => navigate('/')}>
-                            Logout
-                        </button>
-                    </div>
-                </div>
+            <RoleWrapper rolesAllowed={["admin"]} currentRole={storeOwner}>
+            <AddClothes name={name} setName={setName} price={price} setPrice={setPrice} description={description} setDescription={setDescription} stock={stock} setStock={setStock} addClothes={addClothes} />
+            </RoleWrapper>
+            <div className="Logout">
+
+                <label>Filter:</label>
+                <input
+                    type="text"
+                    value={filter}
+                    onChange={(e) => setfilter(e.target.value)}
+                >
+                </input>
+                <button onClick={() => navigate('/')}>
+                    Logout
+                </button>
             </div>
         </div>
-
     );
 };

@@ -1,14 +1,18 @@
-import React, { useState } from "react";
+import React from "react";
 import { useNavigate } from "react-router-dom";
 import "./UserLogin.css";
 
-export const UserLogin = () => {
-    console.log("Clothing is generated");
-    const [username, setUsername] = useState("");
-    const [password, setPassword] = useState("");
-    const navigate = useNavigate();
+export const UserLogin = ({ username, setUsername, password, setPassword, setownerOnly }) => {
+    console.log();
+    const storeOwner = { username: "admin", password: "admin" };
+    const navigate= useNavigate();
     const handleLogin = (event) => {
-        navigate("/Marketplace");
+        navigate("/admin");
+        if (username === storeOwner.username && password === storeOwner.password) {
+            setownerOnly("admin");
+        } else {
+            setownerOnly("customer");
+        }
     };
     const form = (
         <>
